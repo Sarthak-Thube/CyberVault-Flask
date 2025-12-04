@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center auth-wrapper">
+  <div class="col-md-6">
+    <div class="card neon-glow">
+      <div class="card-header bg-transparent border-0 pb-0">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link {% if not register_mode %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if register_mode %}active{% endif %}" href="{{ url_for('register') }}">Register</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        {% if not register_mode %}
+        <!-- LOGIN FORM -->
+        <h5 class="card-title mb-3">Welcome back</h5>
+        <form method="POST" action="{{ url_for('login') }}">
+          <div class="mb-3">
+            <label>Username</label>
+            <input type="text" class="form-control" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label>Password</label>
+            <div class="input-group">
+              <input type="password" class="form-control" name="password" id="login-password" required>
+              <button class="btn btn-outline-light" type="button" id="toggle-login-pwd">Show</button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Login</button>
+        </form>
+
+        {% else %}
+        <!-- REGISTER FORM -->
+        <h5 class="card-title mb-3">Create new account</h5>
+        <form method="POST" action="{{ url_for('register') }}">
+          <div class="mb-3">
+            <label>Username</label>
+            <input type="text" class="form-control" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label>Password</label>
+            <div class="input-group">
+              <input type="password" class="form-control" id="reg-password" name="password" required>
+              <button class="btn btn-outline-light" type="button" id="toggle-reg-pwd">Show</button>
+            </div>
+              <small id="pwd-strength" class="text-muted">Enter a strong password.</small>
+          </div>
+          <button type="submit" class="btn btn-success w-100 mt-2">Register</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Password strength validator for register
+const pwdInput = document.getElementById('reg-password');
+const strengthLabel = document.getElementById('pwd-strength');
+
+function checkStrength(pwd) {
+    let score = 0;
+    if (pwd.length >= 8) score++;
+    if (/[A-Z]/.test(pwd)) score++;
+    if (/[a-z]/.test(pwd)) score++;
+    if (/[0-9]/.test(pwd)) score++;
+    if (/[^A-Za-z0-9]/.test(pwd)) score++;
+    return score;
+}
+
+if (pwdInput && strengthLabel) {
+    pwdInput.addEventListener('input', function () {
+        const v = pwdInput.value;
+        const s = checkStrength(v);
+        if (!v) {
+            strengthLabel.textContent = "Enter a strong password.";
+            strengthLabel.className = "text-muted";
+        } else if (s <= 2) {
+            strengthLabel.textContent = "Weak password.";
+            strengthLabel.className = "text-danger";
+        } else if (s === 3 || s === 4) {
+            strengthLabel.textContent = "Medium strength password.";
+            strengthLabel.className = "text-warning";
+        } else {
+            strengthLabel.textContent = "Strong password.";
+            strengthLabel.className = "text-success";
+        }
+    });
+}
+</script>
+
+<script>
+// existing strength code can stay here ...
+
+// Show / hide for login password
+const loginPwd = document.getElementById('login-password');
+const toggleLogin = document.getElementById('toggle-login-pwd');
+
+if (loginPwd && toggleLogin) {
+    toggleLogin.addEventListener('click', function () {
+        if (loginPwd.type === "password") {
+            loginPwd.type = "text";
+            toggleLogin.textContent = "Hide";
+        } else {
+            loginPwd.type = "password";
+            toggleLogin.textContent = "Show";
+        }
+    });
+}
+
+// Show / hide for register password
+const regPwd = document.getElementById('reg-password');
+const toggleReg = document.getElementById('toggle-reg-pwd');
+
+if (regPwd && toggleReg) {
+    toggleReg.addEventListener('click', function () {
+        if (regPwd.type === "password") {
+            regPwd.type = "text";
+            toggleReg.textContent = "Hide";
+        } else {
+            regPwd.type = "password";
+            toggleReg.textContent = "Show";
+        }
+    });
+}
+</script>
+
+{% endblock %}

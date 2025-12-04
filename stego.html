@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-success mb-4 text-center">Steganography Vault</h2>
+<div class="row">
+  <!-- Hide -->
+  <div class="col-md-6 mb-3">
+    <div class="card bg-dark border-0 shadow">
+      <div class="card-header">Hide Password & Details</div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('stego') }}" enctype="multipart/form-data">
+          <input type="hidden" name="action" value="hide">
+          <div class="mb-3">
+            <label>Site / App Name</label>
+            <input type="text" class="form-control" name="site" required>
+          </div>
+          <div class="mb-3">
+            <label>Username / Email</label>
+            <input type="text" class="form-control" name="u_name" required>
+          </div>
+          <div class="mb-3">
+            <label>Password</label>
+            <input type="text" class="form-control" name="p_word" required>
+          </div>
+          <div class="mb-3">
+            <label>Any notes</label>
+            <textarea class="form-control" name="notes" rows="2" placeholder="Extra details (optional)"></textarea>
+          </div>
+          <div class="mb-3">
+            <label>Choose image (PNG / JPG)</label>
+            <input type="file" class="form-control" name="image" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-outline-success w-100">Encode & Download Image</button>
+        </form>
+        <small class="text-muted d-block mt-2">
+          All details are serialized into one secret text and hidden in the image.
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reveal -->
+  <div class="col-md-6 mb-3">
+    <div class="card bg-dark border-0 shadow">
+      <div class="card-header">Reveal Hidden Details</div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('stego') }}" enctype="multipart/form-data">
+          <input type="hidden" name="action" value="reveal">
+          <div class="mb-3">
+            <label>Upload stego image</label>
+            <input type="file" class="form-control" name="image" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-outline-info w-100">Extract Message</button>
+        </form>
+
+        {% if result %}
+        <div class="alert alert-success mt-3">
+          <strong>Decoded data:</strong>
+          <pre class="mb-0 text-light" style="white-space: pre-wrap;">{{ result }}</pre>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

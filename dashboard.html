@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <!-- LEFT: Add / edit -->
+  <div class="col-md-5">
+    <div class="card bg-black border-success mb-3">
+      <div class="card-header">Add New Credential</div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('dashboard') }}">
+          <div class="mb-3">
+            <label>Site / App Name</label>
+            <input type="text" class="form-control" name="site" placeholder="e.g. Gmail" required>
+          </div>
+          <div class="mb-3">
+            <label>Username / Email</label>
+            <input type="text" class="form-control" name="u_name" required>
+          </div>
+          <div class="mb-3">
+            <label>Password</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="vault-password" name="p_word" required>
+                <input type="number" id="pwd-len" class="form-control" value="16" min="8" max="64" style="max-width:80px;">
+              <button class="btn btn-outline-success" type="button" id="btn-generate">Generate</button>
+            </div>
+            <small class="text-muted" id="vault-pwd-hint">Click generate or enter your own secure password.</small>
+          </div>
+          <div class="mb-2">
+            <label>Suggestions</label>
+            <ul class="small text-muted mb-0" id="suggestions-list">
+              <!-- suggestions added by JS -->
+            </ul>
+          </div>
+          <button type="submit" class="btn btn-success w-100 mt-2">Save Credential</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: List of passwords -->
+  <div class="col-md-7">
+    <h4 class="mb-3">Your Secure Vault</h4>
+    <div class="row" style="max-height: 70vh; overflow-y: auto;">
+      {% for p in passwords %}
+      <div class="col-12 mb-3">
+        <div class="card bg-dark border-secondary">
+          <div class="card-body">
+            <h5 class="card-title text-info">{{ p.site }}</h5>
+            <p class="card-text mb-1">
+              <small class="text-muted">Username</small><br>
+              {{ p.user }}
+            </p>
+            <p class="card-text mb-0">
+              <small class="text-muted">Password</small><br>
+              <span class="bg-black px-2 py-1 rounded text-warning font-monospace" data-password="{{ p.pass }}">********</span>
+              <button class="btn btn-sm btn-outline-light ms-2 btn-toggle-view">Show</button>
+            </p>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <p class="text-muted">No passwords saved yet. Add your first one on the left.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+// Password generator + suggestions
+const vaultInput = document.getElementById('vault-password');
+const btnGen = document.getElementById('btn-generate');
+const hint = document.getElementById('vault-pwd-hint');
+const suggList = document.getElementById('suggestions-list');
+const lenInput = document.getElementById('pwd-len');
+
+function randomPassword(len = 20) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}[]<>?";
+    let r = "";
+    for (let i = 0; i < len; i++) {
+        r += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return r;
+}
+
+function buildSuggestions(p) {
+    if (!suggList) return;
+    suggList.innerHTML = "";
+    const texts = [
+        "Use at least 12 characters with letters, numbers and symbols.",
+        "Avoid using same password on multiple sites.",
+        "Do not include your name, phone or birth date."
+    ];
+    texts.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        suggList.appendChild(li);
+    });
+}
+
+if (btnGen && vaultInput) {
+    btnGen.addEventListener('click', function () {
+        let length = parseInt(lenInput.value) || 16;
+        if (length < 8) length = 8;
+        if (length > 64) length = 64;
+        const pwd = randomPassword(length);
+        vaultInput.value = pwd;
+        hint.textContent = "Generated strong password, you can save it.";
+        hint.className = "text-success";
+        buildSuggestions(pwd);
+    });
+}
+
+// Show / hide stored passwords
+document.querySelectorAll('.btn-toggle-view').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const span = this.previousElementSibling;
+        const real = span.getAttribute('data-password');
+        if (span.textContent === "********") {
+            span.textContent = real;
+            this.textContent = "Hide";
+        } else {
+            span.textContent = "********";
+            this.textContent = "Show";
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,375 @@
+/* =========================
+   Global layout & typography
+   ========================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #0f1b2e 0%, #0d0d3a 45%, #0e0b0b 100%);
+    color: #49ec95;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Smooth scroll and small transition feel */
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    color: #24e3a0;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #7fffd4;
+    text-decoration: underline;
+}
+
+/* Container spacing from navbar */
+.container {
+    padding-bottom: 3rem;
+}
+
+/* Subtle neon glow helper */
+.neon-glow {
+    box-shadow: 0 0 15px rgba(36, 227, 160, 0.5);
+}
+
+/* =========================
+   Navbar & brand styling
+   ========================= */
+
+.navbar {
+    backdrop-filter: blur(12px);
+    background: linear-gradient(90deg, #50d6b2 0%, #050b11 40%, #000000 100%) !important;
+    border-bottom: 1px solid #2358a6;
+}
+
+.navbar-brand {
+    letter-spacing: 2px;
+    font-size: 1.25rem;
+}
+
+.navbar-brand i {
+    margin-right: 6px;
+}
+
+/* Highlight CYBER and VAULT text pieces if used as spans */
+.navbar-brand span {
+    text-shadow: 0 0 8px rgba(0, 255, 184, 0.7);
+}
+
+.navbar .btn {
+    border-radius: 999px;
+    font-size: 0.9rem;
+}
+
+/* =========================
+   Cards (used in login, dashboard, stego)
+   ========================= */
+
+.card {
+    border-radius: 14px;
+    background: rgba(11, 13, 20, 0.9);
+    border: 1px solid #232b3a;
+    box-shadow:
+        0 18px 35px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(15, 255, 190, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: #24e3a0;
+    box-shadow:
+        0 24px 40px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(36, 227, 160, 0.4);
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-weight: 600;
+}
+
+/* For dashboard "Add New Credential" and vault cards */
+.card-title {
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* =========================
+   Forms (login, register, add password, stego)
+   ========================= */
+
+form {
+    margin: 0;
+}
+
+.form-control,
+.form-select,
+textarea.form-control {
+    background-color: #11141f !important;
+    border: 1px solid #262c3a !important;
+    color: #f8f9fa !important;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    padding: 0.55rem 0.75rem;
+}
+
+.form-control::placeholder {
+    color: #7a8499;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+    outline: none;
+    border-color: #24e3a0 !important;
+    box-shadow: 0 0 0 0.15rem rgba(36, 227, 160, 0.25);
+    background-color: #070b12 !important;
+}
+
+/* Labels */
+label {
+    font-size: 0.85rem;
+    color: #c5cedd;
+    margin-bottom: 0.25rem;
+}
+
+/* File inputs in stego page */
+input[type="file"].form-control {
+    padding: 0.35rem 0.6rem;
+    cursor: pointer;
+}
+
+/* =========================
+   Buttons
+   ========================= */
+
+/* Primary neon green button (Save, Login, etc.) */
+.btn-success {
+    background: linear-gradient(135deg, #16c784, #24e3a0);
+    border-color: #16c784;
+    color: #020408;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #10b373, #19c688);
+    border-color: #19c688;
+    color: #020408;
+}
+
+/* Outline green button (Encrypt Download) */
+.btn-outline-success {
+    border-color: #24e3a0;
+    color: #24e3a0;
+    font-weight: 500;
+}
+
+.btn-outline-success:hover {
+    background-color: #24e3a0;
+    color: #020408;
+}
+
+/* Info outline (Extract Message) */
+.btn-outline-info {
+    border-color: #35b4ff;
+    color: #35b4ff;
+    font-weight: 500;
+}
+
+.btn-outline-info:hover {
+    background-color: #35b4ff;
+    color: #fdfdfd;
+}
+
+/* Danger (Logout) */
+.btn-danger {
+    background: linear-gradient(135deg, #f05454, #ff4b81);
+    border-color: #f05454;
+    font-weight: 600;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #da3f3f, #ff3b6e);
+    border-color: #ff3b6e;
+}
+
+/* Ghost / outline buttons in navbar */
+.btn-outline-light {
+    border-color: #eeeeee;
+    color: #f5f5f5;
+}
+
+.btn-outline-light:hover {
+    background-color: #f5f5f5;
+    color: #ffffff;
+}
+
+/* Make full-width action buttons slightly taller */
+.btn.w-100 {
+    padding: 0.6rem 1rem;
+    border-radius: 999px;
+}
+
+/* =========================
+   Auth page (login/register)
+   ========================= */
+
+/* Center the auth card a bit nicer on medium+ screens */
+@media (min-width: 768px) {
+    .auth-wrapper {
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* If you wrap login card row in .auth-wrapper, it will center nicely */
+
+/* =========================
+   Dashboard (vault + add form)
+   ========================= */
+
+/* Section title: "Your Secure Vault" */
+h4.mb-3 {
+    letter-spacing: 0.5px;
+}
+
+/* Vault cards for each password entry */
+.card.bg-dark.border-secondary {
+    background: radial-gradient(circle at top left, #171b26 0%, #05070d 55%, #020308 100%);
+}
+
+/* Site name */
+.card .card-title.text-info {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+}
+
+/* Username & password labels in small text */
+.card-text small.text-muted {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.7rem;
+}
+
+/* Password text span (yellow monospace look) */
+span.bg-black.px-2.py-1.rounded.text-warning.font-monospace {
+    background-color: #c33636 !important;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    border: 1px dashed rgba(255, 193, 7, 0.4);
+}
+
+/* Add New Credential card highlight */
+.card.bg-black.border-success {
+    border-color: #24e3a0 !important;
+}
+
+/* Make columns breathe a bit more on smaller screens */
+@media (max-width: 767.98px) {
+    .row > [class*="col-"] {
+        margin-bottom: 1rem;
+    }
+}
+
+/* =========================
+   Steganography page
+   ========================= */
+
+/* Center heading & text spacing is already in HTML; add cyber vibe to heading */
+h2.text-success {
+    text-shadow:
+        0 0 10px rgba(36, 227, 160, 0.6),
+        0 0 20px rgba(36, 227, 160, 0.3);
+    letter-spacing: 1px;
+}
+
+/* Stego cards (Hide Message / Reveal Message) */
+.card.bg-dark.border-0.shadow {
+    background: radial-gradient(circle at top, #151929 0%, #05070c 55%, #000000 100%);
+}
+
+/* Success alert below reveal result */
+.alert-success {
+    background: rgba(24, 194, 124, 0.12);
+    border-color: rgba(24, 194, 124, 0.6);
+    color: #c6ffe6;
+}
+
+/* =========================
+   Utility & small tweaks
+   ========================= */
+
+/* Muted helper text */
+.text-muted {
+    color: #9099ac !important;
+}
+
+/* For small subtitles / help lines */
+small {
+    font-size: 0.8rem;
+}
+
+/* Horizontal rules in cards */
+hr.bg-secondary {
+    border-top: 1px solid #30384a;
+}
+
+/* Scrollbars (WebKit based) for long vault lists or long messages */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #05070c;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #202738;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2f3a52;
+}
+/* Brand text in navbar */
+.cyber-brand {
+    font-weight: 700;
+    letter-spacing: 3px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.brand-cyber {
+    color: #24e3a0;
+    text-shadow: 0 0 8px rgba(36, 227, 160, 0.9);
+}
+
+.brand-vault {
+    margin-left: 6px;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+/* Top navbar links: Vault / Steganography */
+.navbar .top-link {
+    color: #d4d9ff !important;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+}
+
+.navbar .top-link:hover {
+    color: #24e3a0 !important;
+    text-shadow: 0 0 6px rgba(36, 227, 160, 0.8);
+}
